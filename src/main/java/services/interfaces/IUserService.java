@@ -1,10 +1,12 @@
 package services.interfaces;
 
 import DTOs.CreateUserDTO;
+import DTOs.UserDTO;
 import Models.User;
+import utils.Result;
 
 import java.sql.SQLException;
 
 public interface IUserService {
-    void createUser(CreateUserDTO user) throws SQLException;
+    Result<UserDTO> createUser(CreateUserDTO user) throws SQLException;
 }

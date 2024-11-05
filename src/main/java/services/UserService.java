@@ -3,10 +3,12 @@ package services;
 import DAOs.Interfaces.IUserDao;
 import DAOs.UserDao;
 import DTOs.CreateUserDTO;
+import DTOs.UserDTO;
 import Models.User;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import services.interfaces.IUserService;
 import utils.EmailValidator;
+import utils.Result;
 
 import java.sql.SQLException;
 
@@ -19,35 +21,39 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void createUser(CreateUserDTO userDto) throws SQLException {
+    public Result<UserDTO> createUser(CreateUserDTO userDto) throws SQLException {
         if (userDto.username.isEmpty()) {
-            throw new SQLException("nome de usuário inválido.");
+            return new Result<UserDTO>().FailureResponse("nome de usuário inválido.");
         }
 
         if (userDto.email.isEmpty()) {
-            throw new SQLException("Email inválido.");
+            return new Result<UserDTO>().FailureResponse("email inválido.");
         }
 
         if (userDto.password.isEmpty()) {
-            throw new SQLException("senha inválida.");
+            return new Result<UserDTO>().FailureResponse("senha inválida.");
         }
 
-        if (userDto.password != userDto.confirmPassword) {
-            throw new SQLException("senhas não coincidem.");
+        if (userDto.password.length() <= 3) {
+            return new Result<UserDTO>().FailureResponse("senha muito curta.");
+        }
+
+        if (!userDto.password.equals(userDto.confirmPassword)) {
+            return new Result<UserDTO>().FailureResponse("senhas não coincidem.");
         }
 
         if (!EmailValidator.Match(userDto.email)) {
-            throw new SQLException("Email inválido.");
+            return new Result<UserDTO>().FailureResponse("email inválido.");
         }
 
         User emailInUse = _userDao.getUserByEmail(userDto.email);
         if (emailInUse != null) {
-            throw new SQLException("erro ao criar usuário. Email já esta em uso.");
+            return new Result<UserDTO>().FailureResponse("email já esta sendo utilizado.");
         }
 
         User usernameInUse = _userDao.getUserByUsername(userDto.username);
         if (usernameInUse != null) {
-            throw new SQLException("erro ao criar usuário. Email já esta em uso.");
+            return new Result<UserDTO>().FailureResponse("nome de usuário já esta sendo utilizado.");
         }
 
         String hash = BCrypt.withDefaults().hashToString(12, userDto.password.toCharArray());
@@ -61,8 +67,11 @@ public class UserService implements IUserService {
 
         try {
             _userDao.createUser(user);
+            UserDTO dto = UserDTO.Parse(user);
+
+            return new Result<UserDTO>().SuccessResponse("Usuário criado com sucesso", dto);
         } catch (SQLException sqlException) {
-            System.out.println("sqlException");
+            return new Result<UserDTO>().FailureResponse("Não foi possivel criar usuário.");
         }
     }
 }

@@ -7,7 +7,7 @@
         <h1 class="text-center mb-4 display-4">Fintech</h1>
         <h4 class="display-6 text-center">Deseja controlar suas despesas? Registre-se</h2>
 
-        <form action="#" method="post" id="registerForm">
+        <form action="FintechHome" method="post" id="registerForm">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome:</label>
                 <input type="text" id="username" name="username" class="form-control" required>
@@ -23,8 +23,8 @@
             </div>
 
             <div class="mb-3">
-                <label for="confirmar senha" class="form-label">Senha:</label>
-                <input type="password" id="password" name="cPassword" class="form-control" required>
+                <label for="confirmar senha" class="form-label">confirmar senha:</label>
+                <input type="password" id="cPassword" name="cPassword" class="form-control" required>
             </div>
 
             <div class="text-center">
