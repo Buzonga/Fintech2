@@ -1,8 +1,7 @@
 package DAOs.Interfaces;
-import Models.User;
 
 import java.sql.SQLException;
 
-public interface UserDaoInterface {
+public interface IUserDao {
     void createUser (String user, String email, String password, String picture) throws SQLException;
 }

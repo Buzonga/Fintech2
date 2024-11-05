@@ -1,5 +1,5 @@
 package DAOs;
-import DAOs.Interfaces.UserDaoInterface;
+import DAOs.Interfaces.IUserDao;
 import Database.ApplicationDb;
 import Models.User;
 import java.util.UUID;
@@ -7,7 +7,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 
-public class UserDao implements UserDaoInterface {
+public class UserDao implements IUserDao {
     Connection connection = null;
 
     @Override

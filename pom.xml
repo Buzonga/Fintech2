@@ -35,4 +35,11 @@
     <build>
         <finalName>Teste2</finalName>
     </build>
+
+    <repositories>
+        <repository>
+            <id>jboss-releases</id>
+            <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
+        </repository>
+    </repositories>
 </project>

@@ -7,6 +7,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import services.UserService;
+import services.interfaces.IUserService;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -14,8 +17,10 @@ import java.sql.SQLException;
 public class CreateUserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    private IUserService _userService;
+
     public CreateUserServlet() {
-        super();
+        _userService = new UserService();
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,16 +32,10 @@ public class CreateUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = new User();
         user.setEmail(request.getParameter("email"));
-        user.setUsername(request.getParameter("nome"));
-        user.setPsw(request.getParameter("senha"));
+        user.setUsername(request.getParameter("username"));
+        user.setPsw(request.getParameter("password"));
         user.setPicture("");
-        UserDao userDao = new UserDao();
-        try {
-            userDao.createUser(user.getUsername(), user.getEmail(), request.getParameter("senha"), user.getPicture());
-        } catch (SQLException sqlException) {
-            System.out.println("sqlException");
-        }
 
-
+        _userService.createUser(user);
     }
 }

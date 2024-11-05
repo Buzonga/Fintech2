@@ -45,6 +45,8 @@ public class User {
         return this.transactions;
     }
 
+    public String getPsw() { return this.psw; }
+
     // endregion
 
     // region Setters

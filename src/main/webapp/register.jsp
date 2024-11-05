@@ -1,23 +1,42 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
-</head>
+<html lang="pt-br">
+<%@ include file="header.jsp" %>
+
 <body>
-    <h1>Cadastro de Usuário</h1>
-    <form action="CreateUserServlet" method="post">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4 display-4">Fintech</h1>
+        <h4 class="display-6 text-center">Deseja controlar suas despesas? Registre-se</h2>
 
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" required><br><br>
+        <form action="CreateUserServlet" method="post" id="registerForm">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">E-mail:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+            </div>
 
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required><br><br>
+            <div class="mb-3">
+                <label for="senha" class="form-label">Senha:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
 
-        <input type="submit" value="Cadastrar">
-    </form>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+     document.getElementById("registerForm").addEventListener("submit", ev => {
+        ev.preventDefault();
+     });
+    </script>
+
 </body>
 </html>
