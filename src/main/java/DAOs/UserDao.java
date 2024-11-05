@@ -11,7 +11,7 @@ public class UserDao implements IUserDao {
     Connection connection = null;
 
     @Override
-    public void createUser(String user, String email, String password, String picture) throws SQLException {
+    public void createUser(User user) throws SQLException {
 
 
         this.connection = ApplicationDb.connect();
@@ -20,12 +20,66 @@ public class UserDao implements IUserDao {
                 "(?, ?, ?, ?, ?, ?)";
         PreparedStatement stm = this.connection.prepareStatement(query);
         stm.setString(1, uuid.toString());
-        stm.setString(2, email);
-        stm.setString(3, user);
-        stm.setString(4, password);
-        stm.setString(5, picture);
+        stm.setString(2, user.getEmail());
+        stm.setString(3, user.getUsername());
+        stm.setString(4, user.getPsw());
+        stm.setString(5, user.getPicture());
         stm.setFloat(6, 0);
         stm.executeQuery();
         this.connection.close();
+    }
+
+    @Override
+    public User getUserByEmail(String email) throws SQLException {
+        this.connection = ApplicationDb.connect();
+        String query = "SELECT id, email, psw, username, picture, balance FROM USERS WHERE email = ?";
+
+        PreparedStatement stm = this.connection.prepareStatement(query);
+        stm.setString(1, email);
+
+        ResultSet result = stm.executeQuery();
+
+        if (result.next()) {
+            User user = new User();
+            user.setId(UUID.fromString(result.getString("id")).toString());
+            user.setEmail(result.getString("email"));
+            user.setUsername(result.getString("username"));
+            user.setPsw(result.getString("psw"));
+            user.setPicture(result.getString("picture"));
+            user.setBalance(result.getFloat("balance"));
+
+            this.connection.close();
+            return user;
+        }
+
+        this.connection.close();
+        return null;
+    }
+
+    @Override
+    public User getUserByUsername(String username) throws SQLException {
+        this.connection = ApplicationDb.connect();
+        String query = "SELECT id, email, psw, username, picture, balance FROM USERS WHERE username = ?";
+
+        PreparedStatement stm = this.connection.prepareStatement(query);
+        stm.setString(1, username);
+
+        ResultSet result = stm.executeQuery();
+
+        if (result.next()) {
+            User user = new User();
+            user.setId(UUID.fromString(result.getString("id")).toString());
+            user.setEmail(result.getString("email"));
+            user.setUsername(result.getString("username"));
+            user.setPsw(result.getString("psw"));
+            user.setPicture(result.getString("picture"));
+            user.setBalance(result.getFloat("balance"));
+
+            this.connection.close();
+            return user;
+        }
+
+        this.connection.close();
+        return null;
     }
 }

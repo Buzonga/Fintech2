@@ -79,5 +79,7 @@ public class User {
         this.transactions = transactions;
     }
 
+    public void setId(String id) { this.idUser = id; };
+
     // endregion
 }
