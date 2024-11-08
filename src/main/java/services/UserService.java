@@ -3,6 +3,7 @@ package services;
 import DAOs.Interfaces.IUserDao;
 import DAOs.UserDao;
 import DTOs.CreateUserDTO;
+import DTOs.LoginDTO;
 import DTOs.UserDTO;
 import Models.User;
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -73,5 +74,35 @@ public class UserService implements IUserService {
         } catch (SQLException sqlException) {
             return new Result<UserDTO>().FailureResponse("Não foi possivel criar usuário.");
         }
+    }
+
+    @Override
+    public Result<UserDTO> loginUser(LoginDTO user) throws SQLException {
+        if (!EmailValidator.Match(user.email)) {
+            return new Result<UserDTO>().FailureResponse("email inválido.");
+        }
+
+        if (user.email.isEmpty()) {
+            return new Result<UserDTO>().FailureResponse("email inválido.");
+        }
+
+        if (user.password.isEmpty()) {
+            return new Result<UserDTO>().FailureResponse("senha inválida.");
+        }
+
+        User userExists = _userDao.getUserByEmail(user.email);
+        if (userExists == null) {
+            return new Result<UserDTO>().FailureResponse("usuário não encontrado.");
+        }
+
+        BCrypt.Result isAuthenticated = BCrypt.verifyer().verify(user.password.toCharArray(), userExists.getPsw().toCharArray());
+
+        if (!isAuthenticated.verified) {
+            return new Result<UserDTO>().FailureResponse("senha inválida.");
+        }
+
+        UserDTO userDTO = UserDTO.Parse(userExists);
+
+        return new Result<UserDTO>().SuccessResponse("Usuário criado com sucesso", userDTO);
     }
 }

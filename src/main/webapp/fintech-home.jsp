@@ -1,6 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="pt-br">
 <%@ include file="header.jsp" %>
+<html lang="pt-br">
 
 <body>
     <div class="container mt-5">
@@ -11,8 +13,8 @@
                 <h4>Informações do Usuário</h4>
             </div>
             <div class="card-body">
-                <p><strong>Nome de Usuário:</strong> ${user.username}</p>
-                <p><strong>Email:</strong> ${user.email}</p>
+                <p><strong>Nome de Usuário:</strong> ${username} </p>
+                <p><strong>Email:</strong> ${email}</p>
             </div>
         </div>
 
@@ -22,8 +24,8 @@
             </div>
             <div class="card-body">
                 <h2>
-                    <span class="${user.balance >= 0 ? 'text-success' : 'text-danger'}">
-                        R$ ${user.balance != null ? user.balance : '0,00'}
+                    <span class="${balance >= 0 ? 'text-success' : 'text-danger'}">
+                        R$ ${balance != null ? balance : '0,00'}
                     </span>
                 </h2>
             </div>
@@ -46,7 +48,6 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
